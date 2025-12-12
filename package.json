@@ -7,7 +7,7 @@
     "icon": "icon.png",
     "repository": {
         "type": "git",
-        "url": "https://github.com/ntpower/cdoc-syntax"
+        "url": "https://github.com/nort721/cdoc-syntax"
     },
     "engines": {
         "vscode": "^1.74.0"
