@@ -1,3 +1,6 @@
+![VSCode](https://img.shields.io/badge/VSCode-1.74%2B-007ACC?logo=visual-studio-code&logoColor=white)
+![License](https://img.shields.io/badge/license-MIT-green)
+
 <img width="128" height="128" alt="icon-128" src="https://github.com/user-attachments/assets/f01fe201-63c0-4559-abfc-1f2643afa6f4" />
 
 # CDoc Pseudocode Syntax
