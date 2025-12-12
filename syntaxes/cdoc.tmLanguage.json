@@ -15,32 +15,30 @@
         { "include": "#functions" }
     ],
     "repository": {
+        "comment-tags": {
+            "patterns": [
+                {
+                    "name": "keyword.other.comment-tag.cdoc",
+                    "match": "\\b(TODO|FIXME|NOTE|HACK|XXX|BUG|RESEARCH)\\b"
+                }
+            ]
+        },
         "comments": {
             "patterns": [
                 {
                     "name": "comment.line.double-slash.cdoc",
-                    "match": "(//)(.*)(TODO|FIXME|NOTE|HACK|XXX|BUG|RESEARCH)(:?)(.*)$",
-                    "captures": {
-                        "1": { "name": "comment.line.double-slash.cdoc" },
-                        "2": { "name": "comment.line.double-slash.cdoc" },
-                        "3": { "name": "keyword.other.comment-tag.cdoc" },
-                        "4": { "name": "comment.line.double-slash.cdoc" },
-                        "5": { "name": "comment.line.double-slash.cdoc" }
-                    }
-                },
-                {
-                    "name": "comment.line.double-slash.cdoc",
-                    "match": "//.*$"
+                    "begin": "//",
+                    "end": "$",
+                    "patterns": [
+                        { "include": "#comment-tags" }
+                    ]
                 },
                 {
                     "name": "comment.block.cdoc",
                     "begin": "/\\*",
                     "end": "\\*/",
                     "patterns": [
-                        {
-                            "name": "keyword.other.comment-tag.cdoc",
-                            "match": "\\b(TODO|FIXME|NOTE|HACK|XXX|BUG|RESEARCH)\\b"
-                        }
+                        { "include": "#comment-tags" }
                     ]
                 }
             ]

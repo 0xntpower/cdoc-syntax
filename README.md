@@ -5,62 +5,21 @@
 
 # CDoc Pseudocode Syntax
 
-C syntax highlighting for `.cdoc` files designed for reverse engineering workflows. Write C-style pseudocode without error analysis, IntelliSense interference, or compiler warnings.
-
-## Purpose
-
-When reverse engineering binaries, you often need to document functions and structures in C-like pseudocode. The standard C/C++ extension shows errors for missing headers, undefined types, and incomplete code. CDoc provides clean C syntax highlighting without the noise.
+C syntax highlighting for `.cdoc` files designed for reverse engineering workflows. Write C-style pseudocode without error analysis, IntelliSense interference, or compiler warnings - perfect for documenting decompiled functions and structures from IDA Pro, Ghidra, or Binary Ninja.
 
 ## Features
 
-### Core Highlighting
-- Complete C syntax highlighting (keywords, operators, strings, numbers, comments)
-- Bracket matching and auto-closing pairs
-- Smart indentation and formatting
-- No error squiggles or IntelliSense
-
-### Reverse Engineering Focused
-
-**Calling Conventions & Microsoft Attributes**
-- `__fastcall`, `__stdcall`, `__cdecl`, `__thiscall`, `__vectorcall`
-- `__declspec`, `WINAPI`, `CALLBACK`, `NTAPI`
-- `__forceinline`, `__inline`, `__noinline`
-
-**Disassembler Name Recognition**
-- IDA/Ghidra function names: `sub_140001000`, `nullsub_5`, `j_sub_140002000`
-- Labels: `loc_140001234`, `locret_140001500`
-- Data references: `dword_140003000`, `qword_140004000`, `byte_140005000`
-- Unknowns: `unk_140006000`, `off_140007000`
-
-**Extended Type Support**
-- Windows API types: `DWORD`, `HANDLE`, `NTSTATUS`, `BOOL`, `PVOID`
-- Standard integer types: `uint32_t`, `size_t`, `intptr_t`
-- NT/Kernel types: `UNICODE_STRING`, `OBJECT_ATTRIBUTES`, `IO_STATUS_BLOCK`
-- Kernel structures: `PEPROCESS`, `PETHREAD`, `PDRIVER_OBJECT`, `PIRP`
-- Security types: `ACCESS_MASK`, `SECURITY_DESCRIPTOR`, `TOKEN_PRIVILEGES`
-- Common status codes: `STATUS_SUCCESS`, `STATUS_ACCESS_DENIED`, etc.
-
-**Special Highlighting**
-- Memory addresses: `0x140001000` (6-16 hex digits)
-- TODO/FIXME/NOTE/RESEARCH comments are highlighted
-- Function call recognition
-
-### Code Snippets
-
-Type these prefixes and press Tab:
-- `func` - Function skeleton
-- `struct` - Structure definition
-- `todo` - TODO comment
-- `ifstatus` - NT status check
-- `ifnull` - NULL check
-- `unistr` - UNICODE_STRING initialization
-- `virtmem` - Virtual memory pattern
-- `apihash` - API hash resolution
-- `obfcall` - Obfuscated call pattern
+- Full C syntax highlighting with bracket matching and smart indentation
+- No error squiggles or IntelliSense interference
+- Disassembler name recognition (`sub_140001000`, `loc_`, `dword_`, etc.)
+- Windows API and NT kernel type support (`NTSTATUS`, `UNICODE_STRING`, `PEPROCESS`)
+- Calling conventions (`__fastcall`, `WINAPI`, `NTAPI`)
+- RE-specific code snippets (type `func`, `struct`, `virtmem`, `apihash` and press Tab)
+- TODO/FIXME/NOTE/RESEARCH comment highlighting
 
 ## Usage
 
-Simply create files with the `.cdoc` extension and start documentation your reverse engineering process in pseudocode.
+Create files with the `.cdoc` extension and start documenting your reverse engineering work in pseudocode.
 
 ## Installation
 
