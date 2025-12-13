@@ -5,7 +5,7 @@
 
 # CDoc Pseudocode Syntax
 
-C syntax highlighting for `.cdoc` files designed for reverse engineering workflows. Write C-style pseudocode without error analysis, IntelliSense interference, or compiler warnings - perfect for documenting decompiled functions and structures from IDA Pro, Ghidra, or Binary Ninja.
+C syntax highlighting for .cdoc pseudocode files without the noise. Built for documenting reverse engineered code where the standard C/C++ extension complains about missing headers, undefined types, and incomplete code.
 
 ## Features
 
