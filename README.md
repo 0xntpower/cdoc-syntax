@@ -5,7 +5,7 @@
 
 # CDoc Pseudocode Syntax
 
-C syntax highlighting for .cdoc pseudocode files without the noise. Built for documenting reverse engineered code where the standard C/C++ extension complains about missing headers, undefined types, and incomplete code.
+C syntax highlighting for `.cdoc` pseudocode files without the noise. Built for documenting reverse engineered code where the standard C/C++ extension complains about missing headers, undefined types, and incomplete code.
 
 ## Features
 
