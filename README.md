@@ -33,21 +33,6 @@ Create files with the `.cdoc` extension and start documenting your reverse engin
 1. Download the `.vsix` file
 2. Run: `code --install-extension cdoc-syntax-1.0.0.vsix`
 
-## Customization
-
-### Adding Custom Types
-Edit `syntaxes/cdoc.tmLanguage.json` and add your types to the appropriate pattern. For example, to add custom game engine types:
-
-```json
-{
-    "name": "storage.type.custom.cdoc",
-    "match": "\\b(CGameObject|CPlayer|CEntity)\\b"
-}
-```
-
-### Custom Snippets
-Add your own snippets to `snippets/cdoc.json` following the VSCode snippet format.
-
 ## License
 
 MIT

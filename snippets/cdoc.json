@@ -1,157 +1,258 @@
 {
-    "Function Skeleton": {
-        "prefix": "func",
+    "XOR Decode Loop": {
+        "prefix": "xor",
         "body": [
-            "${1:NTSTATUS} ${2:__fastcall} ${3:sub_140001000}(${4:PVOID param1}) {",
-            "\t${5:// TODO: analyze this function}",
-            "\t$0",
-            "\treturn ${6:STATUS_SUCCESS};",
-            "}"
-        ],
-        "description": "Create a function skeleton for RE"
-    },
-    "Structure Definition": {
-        "prefix": "struct",
-        "body": [
-            "typedef struct _${1:STRUCTURE_NAME} {",
-            "\t${2:DWORD field1};",
-            "\t${3:PVOID field2};",
-            "\t$0",
-            "} ${1:STRUCTURE_NAME}, *P${1:STRUCTURE_NAME};"
-        ],
-        "description": "Create a structure definition"
-    },
-    "TODO Comment": {
-        "prefix": "todo",
-        "body": [
-            "// TODO: ${1:description}$0"
-        ],
-        "description": "Insert TODO comment"
-    },
-    "FIXME Comment": {
-        "prefix": "fixme",
-        "body": [
-            "// FIXME: ${1:description}$0"
-        ],
-        "description": "Insert FIXME comment"
-    },
-    "NOTE Comment": {
-        "prefix": "note",
-        "body": [
-            "// NOTE: ${1:description}$0"
-        ],
-        "description": "Insert NOTE comment"
-    },
-    "RESEARCH Comment": {
-        "prefix": "research",
-        "body": [
-            "// RESEARCH: ${1:description}$0"
-        ],
-        "description": "Insert RESEARCH comment"
-    },
-    "If Status Check": {
-        "prefix": "ifstatus",
-        "body": [
-            "if (!NT_SUCCESS(${1:status})) {",
-            "\t${2:// Handle error}",
-            "\treturn ${1:status};",
+            "for (${1:i} = 0; ${1:i} < ${2:len}; ${1:i}++) {",
+            "\t${3:data}[${1:i}] ^= ${4:0xAA};",
             "}$0"
         ],
-        "description": "NT status check pattern"
+        "description": "XOR decode loop (single-byte key)"
     },
-    "Switch Case": {
-        "prefix": "switchcase",
+    "XOR Multi-byte Key": {
+        "prefix": "xork",
         "body": [
-            "switch (${1:variable}) {",
-            "\tcase ${2:value1}:",
-            "\t\t${3:// Handle case 1}",
-            "\t\tbreak;",
-            "\tcase ${4:value2}:",
-            "\t\t${5:// Handle case 2}",
-            "\t\tbreak;",
-            "\tdefault:",
-            "\t\t${6:// Handle default}",
-            "\t\tbreak;",
+            "for (${1:i} = 0; ${1:i} < ${2:len}; ${1:i}++) {",
+            "\t${3:data}[${1:i}] ^= ${4:key}[${1:i} % ${5:keylen}];",
             "}$0"
         ],
-        "description": "Switch statement with cases"
+        "description": "XOR decode with multi-byte key"
     },
-    "Memory Copy Pattern": {
-        "prefix": "memcpy",
+    "Stack String Construction": {
+        "prefix": "stackstr",
         "body": [
-            "memcpy(${1:dest}, ${2:src}, ${3:size});$0"
+            "${1:buffer}[0] = ${2:0x41};",
+            "${1:buffer}[1] = ${3:0x42};",
+            "${1:buffer}[2] = ${4:0x43};",
+            "${1:buffer}[3] = 0;$0"
         ],
-        "description": "Memory copy operation"
+        "description": "Stack string to avoid static analysis"
     },
-    "Memory Compare Pattern": {
-        "prefix": "memcmp",
+    "PEB Walk": {
+        "prefix": "pebwalk",
         "body": [
-            "if (memcmp(${1:buf1}, ${2:buf2}, ${3:size}) == 0) {",
-            "\t$0",
-            "}"
+            "#ifdef _WIN64",
+            "PPEB pPeb = (PPEB)__readgsqword(0x60);",
+            "#else",
+            "PPEB pPeb = (PPEB)__readfsdword(0x30);",
+            "#endif",
+            "PPEB_LDR_DATA pLdr = pPeb->Ldr;",
+            "PLIST_ENTRY pListHead = &pLdr->InMemoryOrderModuleList;",
+            "PLIST_ENTRY pListEntry = pListHead->Flink;$0"
         ],
-        "description": "Memory comparison"
-    },
-    "Null Check": {
-        "prefix": "ifnull",
-        "body": [
-            "if (${1:pointer} == NULL) {",
-            "\t${2:return STATUS_INVALID_PARAMETER;}",
-            "}$0"
-        ],
-        "description": "NULL pointer check"
-    },
-    "UNICODE_STRING Declaration": {
-        "prefix": "unistr",
-        "body": [
-            "UNICODE_STRING ${1:ustrName};",
-            "RtlInitUnicodeString(&${1:ustrName}, L\"${2:string}\");$0"
-        ],
-        "description": "UNICODE_STRING initialization"
-    },
-    "Decompiled Loop": {
-        "prefix": "forloop",
-        "body": [
-            "for (${1:int i = 0}; ${2:i < count}; ${3:i++}) {",
-            "\t$0",
-            "}"
-        ],
-        "description": "Standard for loop"
-    },
-    "Obfuscated Call Pattern": {
-        "prefix": "obfcall",
-        "body": [
-            "// NOTE: Obfuscated/indirect call",
-            "${1:pFunction} = (${2:FARPROC})${3:resolve_function()};",
-            "${4:result} = ${1:pFunction}(${5:args});$0"
-        ],
-        "description": "Pattern for obfuscated function calls"
+        "description": "PEB walk to enumerate loaded modules"
     },
     "API Hash Resolution": {
         "prefix": "apihash",
         "body": [
-            "// Hash: 0x${1:DEADBEEF}",
-            "${2:pFunction} = resolve_by_hash(0x${1:DEADBEEF});",
-            "if (${2:pFunction}) {",
-            "\t${3:// Call resolved function}",
-            "}$0"
+            "DWORD hash = ${1:0xDEADBEEF};",
+            "FARPROC pFunc = resolve_by_hash(${2:hModule}, hash);",
+            "if (pFunc) {",
+            "\t$0",
+            "}"
         ],
         "description": "API resolution by hash"
     },
-    "Virtual Memory Pattern": {
-        "prefix": "virtmem",
+    "GetProcAddress Pattern": {
+        "prefix": "gpa",
         "body": [
-            "PVOID ${1:pAddress} = NULL;",
-            "SIZE_T ${2:size} = 0x${3:1000};",
-            "NTSTATUS status = ${4:NtAllocateVirtualMemory}(",
-            "\t${5:hProcess},",
-            "\t&${1:pAddress},",
-            "\t0,",
-            "\t&${2:size},",
-            "\t${6:MEM_COMMIT | MEM_RESERVE},",
-            "\t${7:PAGE_READWRITE}",
-            ");$0"
+            "${1:pFunc} = (${2:FARPROC})GetProcAddress(${3:hModule}, ${4:\"FunctionName\"});",
+            "if (!${1:pFunc}) {",
+            "\t${5:return NULL;}",
+            "}$0"
         ],
-        "description": "Virtual memory allocation pattern"
+        "description": "GetProcAddress with error check"
+    },
+    "EAT Parsing": {
+        "prefix": "eat",
+        "body": [
+            "PIMAGE_DOS_HEADER pDos = (PIMAGE_DOS_HEADER)${1:hModule};",
+            "PIMAGE_NT_HEADERS pNt = (PIMAGE_NT_HEADERS)((BYTE*)${1:hModule} + pDos->e_lfanew);",
+            "PIMAGE_EXPORT_DIRECTORY pExport = (PIMAGE_EXPORT_DIRECTORY)((BYTE*)${1:hModule} + ",
+            "\tpNt->OptionalHeader.DataDirectory[IMAGE_DIRECTORY_ENTRY_EXPORT].VirtualAddress);",
+            "DWORD* pNames = (DWORD*)((BYTE*)${1:hModule} + pExport->AddressOfNames);",
+            "DWORD* pFuncs = (DWORD*)((BYTE*)${1:hModule} + pExport->AddressOfFunctions);",
+            "WORD* pOrds = (WORD*)((BYTE*)${1:hModule} + pExport->AddressOfNameOrdinals);$0"
+        ],
+        "description": "Parse Export Address Table"
+    },
+    "IsDebuggerPresent Check": {
+        "prefix": "antidbg",
+        "body": [
+            "if (IsDebuggerPresent()) {",
+            "\t${1:return -1;}",
+            "}$0"
+        ],
+        "description": "Anti-debug: IsDebuggerPresent"
+    },
+    "PEB BeingDebugged Check": {
+        "prefix": "peb_dbg",
+        "body": [
+            "#ifdef _WIN64",
+            "if (*(BYTE*)(__readgsqword(0x60) + 0x02)) {",
+            "#else",
+            "if (*(BYTE*)(__readfsdword(0x30) + 0x02)) {",
+            "#endif",
+            "\t${1:// Debugger detected}",
+            "}$0"
+        ],
+        "description": "PEB->BeingDebugged flag check"
+    },
+    "RDTSC Timing Check": {
+        "prefix": "timing",
+        "body": [
+            "DWORD64 start = __rdtsc();",
+            "${1:// Suspicious code}",
+            "DWORD64 end = __rdtsc();",
+            "if ((end - start) > ${2:10000}) {",
+            "\t${3:// Debugger/VM detected}",
+            "}$0"
+        ],
+        "description": "RDTSC timing anti-debug"
+    },
+    "VMware Detection": {
+        "prefix": "vmware",
+        "body": [
+            "__try {",
+            "\t__asm {",
+            "\t\tmov eax, 0x564D5868",
+            "\t\tmov ebx, 0",
+            "\t\tmov ecx, 10",
+            "\t\tmov edx, 0x5658",
+            "\t\tin eax, dx",
+            "\t}",
+            "\t${1:// VMware detected}",
+            "} __except(EXCEPTION_EXECUTE_HANDLER) {",
+            "\t${2:// Not in VMware}",
+            "}$0"
+        ],
+        "description": "VMware hypervisor detection"
+    },
+    "Process Injection": {
+        "prefix": "inject",
+        "body": [
+            "LPVOID pRemote = VirtualAllocEx(${1:hProcess}, NULL, ${2:size}, MEM_COMMIT | MEM_RESERVE, PAGE_EXECUTE_READWRITE);",
+            "WriteProcessMemory(${1:hProcess}, pRemote, ${3:payload}, ${2:size}, NULL);",
+            "CreateRemoteThread(${1:hProcess}, NULL, 0, (LPTHREAD_START_ROUTINE)pRemote, NULL, 0, NULL);$0"
+        ],
+        "description": "Classic process injection"
+    },
+    "IAT Hook": {
+        "prefix": "iat_hook",
+        "body": [
+            "PIMAGE_IMPORT_DESCRIPTOR pImport = ${1:pImportDesc};",
+            "while (pImport->Name) {",
+            "\tPIMAGE_THUNK_DATA pThunk = (PIMAGE_THUNK_DATA)((BYTE*)${2:hModule} + pImport->FirstThunk);",
+            "\twhile (pThunk->u1.Function) {",
+            "\t\tif (pThunk->u1.Function == (DWORD_PTR)${3:pOrigFunc}) {",
+            "\t\t\tDWORD dwOld;",
+            "\t\t\tVirtualProtect(&pThunk->u1.Function, sizeof(DWORD_PTR), PAGE_READWRITE, &dwOld);",
+            "\t\t\tpThunk->u1.Function = (DWORD_PTR)${4:pHookFunc};",
+            "\t\t\tVirtualProtect(&pThunk->u1.Function, sizeof(DWORD_PTR), dwOld, &dwOld);",
+            "\t\t}",
+            "\t\tpThunk++;",
+            "\t}",
+            "\tpImport++;",
+            "}$0"
+        ],
+        "description": "IAT hooking pattern"
+    },
+    "Inline Hook": {
+        "prefix": "inline_hook",
+        "body": [
+            "BYTE jmp[] = { 0xE9, 0x00, 0x00, 0x00, 0x00 };",
+            "*(DWORD*)(jmp + 1) = (DWORD)((BYTE*)${1:pHookFunc} - (BYTE*)${2:pTargetFunc} - 5);",
+            "DWORD dwOld;",
+            "VirtualProtect(${2:pTargetFunc}, 5, PAGE_EXECUTE_READWRITE, &dwOld);",
+            "memcpy(${2:pTargetFunc}, jmp, 5);",
+            "VirtualProtect(${2:pTargetFunc}, 5, dwOld, &dwOld);$0"
+        ],
+        "description": "Inline function hooking (JMP)"
+    },
+    "APC Injection": {
+        "prefix": "apc",
+        "body": [
+            "LPVOID pRemote = VirtualAllocEx(${1:hProcess}, NULL, ${2:size}, MEM_COMMIT | MEM_RESERVE, PAGE_EXECUTE_READWRITE);",
+            "WriteProcessMemory(${1:hProcess}, pRemote, ${3:payload}, ${2:size}, NULL);",
+            "HANDLE hThread = OpenThread(THREAD_SET_CONTEXT, FALSE, ${4:dwThreadId});",
+            "QueueUserAPC((PAPCFUNC)pRemote, hThread, 0);",
+            "CloseHandle(hThread);$0"
+        ],
+        "description": "APC queue injection"
+    },
+    "Get EIP/RIP": {
+        "prefix": "getpc",
+        "body": [
+            "#ifdef _WIN64",
+            "__asm {",
+            "\tcall get_rip",
+            "get_rip:",
+            "\tpop ${1:rax}",
+            "}",
+            "#else",
+            "__asm {",
+            "\tcall get_eip",
+            "get_eip:",
+            "\tpop ${1:eax}",
+            "}",
+            "#endif$0"
+        ],
+        "description": "Position-independent code: get instruction pointer"
+    },
+    "FNV-1a Hash": {
+        "prefix": "fnv",
+        "body": [
+            "DWORD hash = 0x811c9dc5;",
+            "while (*${1:str}) {",
+            "\thash ^= (BYTE)*${1:str}++;",
+            "\thash *= 0x01000193;",
+            "}$0"
+        ],
+        "description": "FNV-1a hash calculation"
+    },
+    "CRC32 Hash": {
+        "prefix": "crc32",
+        "body": [
+            "DWORD crc = 0xFFFFFFFF;",
+            "for (${1:i} = 0; ${1:i} < ${2:len}; ${1:i}++) {",
+            "\tcrc = (crc >> 8) ^ ${3:crc_table}[(crc ^ ${4:data}[${1:i}]) & 0xFF];",
+            "}",
+            "crc = ~crc;$0"
+        ],
+        "description": "CRC32 hash calculation"
+    },
+    "ROL Operation": {
+        "prefix": "rol",
+        "body": [
+            "${1:value} = (${1:value} << ${2:bits}) | (${1:value} >> (${3:32} - ${2:bits}));$0"
+        ],
+        "description": "Rotate left operation"
+    },
+    "ROR Operation": {
+        "prefix": "ror",
+        "body": [
+            "${1:value} = (${1:value} >> ${2:bits}) | (${1:value} << (${3:32} - ${2:bits}));$0"
+        ],
+        "description": "Rotate right operation"
+    },
+    "Control Flow Note": {
+        "prefix": "cfg",
+        "body": [
+            "// CFG: ${1:description}$0"
+        ],
+        "description": "Control flow analysis note"
+    },
+    "Crypto Routine Marker": {
+        "prefix": "crypto",
+        "body": [
+            "// CRYPTO: ${1:algorithm} - ${2:description}$0"
+        ],
+        "description": "Mark crypto routine"
+    },
+    "ROP Gadget": {
+        "prefix": "rop",
+        "body": [
+            "// ROP: 0x${1:address} - ${2:gadget description}$0"
+        ],
+        "description": "ROP gadget annotation"
     }
 }
