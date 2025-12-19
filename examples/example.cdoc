@@ -172,7 +172,7 @@ BOOLEAN __thiscall unk_140009000(PVOID pContext) {
         case 0x1:
             return sub_140009100(pContext);
         case 0x2:
-            return j_sub_140009200(pContext);  // Jumped-to function
+            return j_sub_140009200(pContext);
         case 0x3:
             goto loc_140009300;
         default:

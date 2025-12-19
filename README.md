@@ -8,7 +8,7 @@
 C syntax highlighting for `.cdoc` pseudocode files without the noise. Built for documenting reverse engineered code where the standard C/C++ extension complains about missing headers, undefined types, and incomplete code.
 
 **before vs after**
-<img width="1663" height="288" alt="syntax" src="https://github.com/user-attachments/assets/bf6d63de-a53c-49e0-9b4e-4a55104c4fa9" />
+<img src="https://github.com/user-attachments/assets/bf6d63de-a53c-49e0-9b4e-4a55104c4fa9" alt="Syntax Highlighting" width="100%" />
 
 ## Features
 
